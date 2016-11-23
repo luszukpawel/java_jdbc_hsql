@@ -29,6 +29,5 @@ public interface IAmmunitionManager
 	// pobranie x należących do y
 	public List<Ammunition> get_all_Ammunitions_for_Weapons(String name);
 
-	//change ?
-	public boolean move_to_another_Weapon(Ammunition which, Weapon new_ph);
+
 }

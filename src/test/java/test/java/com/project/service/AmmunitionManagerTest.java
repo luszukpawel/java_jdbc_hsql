@@ -47,32 +47,13 @@ public class AmmunitionManagerTest
 	}
 
 	@Test
-	public void test_insert_all()
-	{
-		weaponManager.add_Weapon(new Weapon("TestAddAll"));
-		int Weapon_id = weaponManager.select_id_from_Weapon("TestAddAll");
-		List<Ammunition> bad = new ArrayList<Ammunition>();
-		Ammunition m1 = new Ammunition(NAME, 20, 81, Weapon_id);
-		Ammunition m2 = new Ammunition(NAME, 20, 81, Weapon_id);
-		Ammunition m3 = new Ammunition("Witamina D", 20, 81, Weapon_id);
-		bad.add(m1);
-		bad.add(m2);
-		bad.add(m3);
-
-		AmmunitionManager.add_all_Ammunitions(bad);
-
-		List<Ammunition> all = AmmunitionManager.get_all_Ammunitions();
-		assertEquals(0, all.size());
-	}
-
-	@Test
 	public void test_update()
 	{
-		weaponManager.add_Weapon(new Weapon("Test Ammunition"));
-		weaponManager.add_Weapon(new Weapon("Test Ammunition2"));
+		weaponManager.add_Weapon(new Weapon("Ammunition"));
+		weaponManager.add_Weapon(new Weapon("Ammunition2"));
 		// Adding for test :
-		int	ammo_id1 = weaponManager.select_id_from_Weapon("Test Ammunition");
-		int ammo_id2 = weaponManager.select_id_from_Weapon("Test Ammunition2");
+		int ammo_id1 = weaponManager.select_id_from_Weapon("Ammunition");
+		int ammo_id2 = weaponManager.select_id_from_Weapon("Ammunition2");
 		Ammunition Ammunition = new Ammunition(NAME, 10, 30, ammo_id1);
 		AmmunitionManager.add_Ammunition(Ammunition);
 
@@ -86,36 +67,37 @@ public class AmmunitionManagerTest
 		weaponManager.add_Weapon(new Weapon("Test Ammunition"));
 		// Adding for test :
 		int Weapon_id = weaponManager.select_id_from_Weapon("Test Ammunition");
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 10; i++)
 		{
 			Ammunition Ammunition = new Ammunition("Ammunition " + i, i, 23, Weapon_id);
 			AmmunitionManager.add_Ammunition(Ammunition);
 		}
 		List<Ammunition> Ammunitions = AmmunitionManager.get_all_Ammunitions();
-		assertEquals(3, Ammunitions.size());
+		assertEquals(10, Ammunitions.size());
 	}
 
 	@Test
 	public void test_delete_one()
 	{
-		weaponManager.add_Weapon(new Weapon("Test Ammunition"));
-		int Weapon_id = weaponManager.select_id_from_Weapon("Test Ammunition");
+		weaponManager.add_Weapon(new Weapon("Ammunition"));
+		int Weapon_id = weaponManager.select_id_from_Weapon("Ammunition");
 		Ammunition Ammunition = new Ammunition(NAME, 1, 1, Weapon_id);
 		AmmunitionManager.add_Ammunition(Ammunition);
-		Ammunition Ammunition2 = new Ammunition("MaZostac", 2, 2, Weapon_id);
+		Ammunition Ammunition2 = new Ammunition("Ammunition2", 2, 2, Weapon_id);
 		AmmunitionManager.add_Ammunition(Ammunition2);
 
 		AmmunitionManager.delete_Ammunition(Ammunition);
 		List<Ammunition> Ammunitions = AmmunitionManager.get_all_Ammunitions();
 		assertEquals(1, Ammunitions.size());
 		Ammunition check = Ammunitions.get(0);
-		assertEquals("MaZostac", check.getName());
+		
+		assertEquals("Ammunition2", check.getName());
 	}
 
 	@Test
 	public void test_delete()
 	{
-		
+
 		weaponManager.add_Weapon(new Weapon("Weapon2"));
 		int Weapon_id = weaponManager.select_id_from_Weapon("Weapon2");
 		Ammunition Ammunition = new Ammunition(NAME, 11, 1, Weapon_id);

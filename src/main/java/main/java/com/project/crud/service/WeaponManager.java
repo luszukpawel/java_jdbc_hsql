@@ -65,7 +65,7 @@ public class WeaponManager implements IWeaponManager
 	{
 		return connection;
 	}
-	
+
 	public boolean add_Weapon(Weapon Weapon)
 	{
 		int count = 0;
@@ -98,7 +98,7 @@ public class WeaponManager implements IWeaponManager
 		}
 		return count;
 	}
-	
+
 	public void delete_all_Weapons()
 	{
 		try

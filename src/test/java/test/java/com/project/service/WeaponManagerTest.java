@@ -20,7 +20,10 @@ public class WeaponManagerTest
 	IWeaponManager WeaponManager = new WeaponManager();
 
 	private static String model = "AK-47";
+	
 
+		
+	
 	@Before
 	public void clear_database()
 	{
@@ -108,12 +111,13 @@ public class WeaponManagerTest
 		Weapon Weapon = new Weapon(model);
 		WeaponManager.add_Weapon(Weapon);
 		assertEquals(true, WeaponManager.update_Weapon(Weapon.getModel(), "test1"));
+		WeaponManager.delete_all_Weapons();
 	}
 
 	@Test
 	public void test_Ammunitions_from_Weapon()
 	{
-		
+
 		IAmmunitionManager ammunitionManager = new AmmunitionManager();
 		ammunitionManager.delete_all_Ammunitions();
 		WeaponManager.add_Weapon(new Weapon("M4A1"));
@@ -127,6 +131,20 @@ public class WeaponManagerTest
 		List<Ammunition> ammunitions = ammunitionManager.get_all_Ammunitions_for_Weapons("M4A1");
 		assertEquals(3, ammunitions.size());
 		ammunitionManager.delete_all_Ammunitions();
+	}
+	@Test
+	public void first_test()
+	{
+		List<Weapon> test_weapons = new ArrayList<Weapon>();
+		Weapon p1 = new Weapon("MP5");
+		Weapon p2 = new Weapon("RPG-7");
+		Weapon p3 = new Weapon("UZI");
+		Weapon p4 = new Weapon("Remington");
+		test_weapons.add(p1);
+		test_weapons.add(p2);
+		test_weapons.add(p3);
+		test_weapons.add(p4);
+		WeaponManager.add_all_Weapons(test_weapons);
 	}
 
 }

@@ -88,7 +88,6 @@ public class AmmunitionManager implements IAmmunitionManager
 		}
 	}
 
-
 	public boolean add_Ammunition(Ammunition Ammunition)
 	{
 		int count = 0;
@@ -161,16 +160,16 @@ public class AmmunitionManager implements IAmmunitionManager
 		return count;
 	}
 
-	public boolean update_Ammunition(Ammunition old, Ammunition new_med)
+	public boolean update_Ammunition(Ammunition old, Ammunition new_ammo)
 	{
 		int count = 0;
 		try
 		{
 			// NEW
-			PS_update.setString(1, new_med.getName());
-			PS_update.setInt(2, new_med.getCost());
-			PS_update.setInt(3, new_med.getcaliber());
-			PS_update.setInt(4, new_med.getWeapon_id());
+			PS_update.setString(1, new_ammo.getName());
+			PS_update.setInt(2, new_ammo.getCost());
+			PS_update.setInt(3, new_ammo.getcaliber());
+			PS_update.setInt(4, new_ammo.getWeapon_id());
 			// OLD
 			PS_update.setString(5, old.getName());
 
@@ -270,25 +269,6 @@ public class AmmunitionManager implements IAmmunitionManager
 		return ammo_list;
 	}
 
-	public boolean move_to_another_Weapon(Ammunition which, Weapon new_wep)
-	{
-		int count = 0;
-		WeaponManager wep = new WeaponManager();
-		try
-		{
-			int wep_id = wep.select_id_from_Weapon(new_wep.getModel());
-			PS_update_Weapon.setInt(1, wep_id);
-			PS_update_Weapon.setString(2, which.getName());
-			count = PS_update_Weapon.executeUpdate();
 
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
-		}
-		if (count == 1)
-			return true;
-		else
-			return false;
-	}
 
 }
