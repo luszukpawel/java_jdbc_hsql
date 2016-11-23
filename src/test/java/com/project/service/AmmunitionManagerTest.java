@@ -24,7 +24,7 @@ public class AmmunitionManagerTest {
 		AmmunitionManager.delete_all_Ammunitions();
 	}
 
- static String NAME = "TRACER";
+	private final static String NAME_1 = "TRACER";
 
 	@Test
 	public void test_connection(){
@@ -40,5 +40,47 @@ public class AmmunitionManagerTest {
 		Ammunition AmmunitionRetrieved = Ammunitions.get(0);
 		assertEquals(NAME_1, AmmunitionRetrieved.getName());
 	}
+	/*
+	@Test
+	public void test_add_all_ok(){
+		weaponManager.add_Weapon(new Weapon("TestAddAll"));
+		List<Ammunition> ammunitions_test = new ArrayList<Ammunition>();
+		int Weapon_id = weaponManager.select_id_from_Weapon("TestAddAll");
+		Ammunition ammo1 = new Ammunition("SRTA", 20, 81, Weapon_id);
+		Ammunition ammo2 = new Ammunition("BLANK", 20, 81, Weapon_id);
+		Ammunition ammo3 = new Ammunition("DUMMY", 20, 81, Weapon_id);
+		Ammunition ammo4 = new Ammunition("DUMMY", 20, 81, Weapon_id);
+		ammunitions_test.add(ammo1);
+		ammunitions_test.add(ammo2);
+		ammunitions_test.add(ammo3);
+		ammunitions_test.add(ammo4);
 
+		AmmunitionManager.add_all_Ammunitions(ammunitions_test);
+
+		List<Ammunition> all = AmmunitionManager.get_all_Ammunitions();
+		assertEquals(4, all.size());
+	}
+	*/
+	@Test
+	public void test_add_all_bad(){
+	}
+
+	@Test
+	public void test_update(){
+	}
+
+	@Test
+	public void test_get_Ammunitions(){
+	}
+
+	@Test
+	public void test_delete_one(){
+	}
+
+	@Test
+	public void test_delete(){
+	}
+
+	@Test
+	public void test_move_to_another_Weapon(){
 }
