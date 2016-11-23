@@ -63,7 +63,7 @@ public class AmmunitionManager implements IAmmunitionManager
 			PS_set_Weapon = connection.prepareStatement(
 					"UPDATE Ammunition SET Weapon_id=(SELECT id FROM Weapon WHERE name=?) WHERE name=?;");
 			PS_get_for_Weapon = connection.prepareStatement(
-					"SELECT id, name, cost, caliber, Weapon_id FROM Ammunition WHERE Weapon_id = (SELECT id FROM Weapon WHERE name=?);");
+					"SELECT id, name, cost, caliber, Weapon_id FROM Ammunition WHERE Weapon_id = (SELECT id FROM Weapon WHERE model=?);");
 		} catch (SQLException e)
 		{
 			e.printStackTrace();
@@ -75,11 +75,11 @@ public class AmmunitionManager implements IAmmunitionManager
 		return connection;
 	}
 
-	public void set_Weapon_for_Ammunition(Ammunition Ammunition, String ph_name)
+	public void set_Weapon_for_Ammunition(Ammunition Ammunition, String Weapon_model)
 	{
 		try
 		{
-			PS_set_Weapon.setString(1, ph_name);
+			PS_set_Weapon.setString(1, Weapon_model);
 			PS_set_Weapon.setString(2, Ammunition.getName());
 			System.out.println(PS_set_Weapon.executeUpdate());
 		} catch (SQLException e)
@@ -108,24 +108,61 @@ public class AmmunitionManager implements IAmmunitionManager
 		if (count == 1)
 		{
 			return true;
-
+		} else
+		{
+			return false;
+		}
 	}
-
 
 	public boolean add_all_Ammunitions(List<Ammunition> Ammunitions)
 	{
+		try
+		{
+			connection.setAutoCommit(false);
+
+			for (Ammunition Ammunition : Ammunitions)
+			{
+				PS_add_one.setString(1, Ammunition.getName());
+				PS_add_one.setInt(2, Ammunition.getCost());
+				PS_add_one.setInt(3, Ammunition.getcaliber());
+				PS_add_one.setInt(4, Ammunition.getWeapon_id());
+				PS_add_one.executeUpdate();
+			}
+
+			connection.commit();
+			connection.setAutoCommit(true);
+		} catch (SQLException e)
+		{
+			try
+			{
+
+				connection.rollback();
+				connection.setAutoCommit(true);
+			} catch (SQLException e1)
+			{
+				e1.printStackTrace();
+			}
+		}
 
 		return false;
 	}
 
 	public int delete_Ammunition(Ammunition Ammunition)
 	{
-
-		return 0;
+		int count = 0;
+		try
+		{
+			PS_delete_one.setString(1, Ammunition.getName());
+			count = PS_delete_one.executeUpdate();
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return count;
 	}
 
 	public boolean update_Ammunition(Ammunition old, Ammunition new_med)
-	{/*
+	{
 		int count = 0;
 		try
 		{
@@ -147,25 +184,110 @@ public class AmmunitionManager implements IAmmunitionManager
 			return true;
 		else
 			return false;
-			*/
-			return 0
 	}
 
 	// DELETE
 	public boolean clear_Ammunition(Ammunition Ammunition)
 	{
-
+		int count = 0;
+		try
+		{
+			PS_delete_one.setString(1, Ammunition.getName());
+			count = PS_delete_one.executeUpdate();
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		if (count == 1)
+			return true;
+		else
 			return false;
 
 	}
 
 	public void delete_all_Ammunitions()
 	{
+		try
+		{
+			PS_delete_all.executeUpdate();
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
 
+	}
+
+	// SELECT
+	public List<Ammunition> get_all_Ammunitions()
+	{
+		List<Ammunition> ammunitions = new ArrayList<Ammunition>();
+
+		try
+		{
+			ResultSet rs = PS_get_all.executeQuery();
+
+			while (rs.next())
+			{
+				Ammunition p = new Ammunition();
+				p.setId(rs.getInt("id"));
+				p.setName(rs.getString("name"));
+				p.setCost(rs.getInt("cost"));
+				p.setcaliber(rs.getInt("caliber"));
+				p.setWeapon_id(rs.getInt("Weapon_id"));
+				ammunitions.add(p);
+			}
+
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return ammunitions;
+	}
+
+	public List<Ammunition> get_all_Ammunitions_for_Weapons(String model)
+	{
+		List<Ammunition> ammo_list = new ArrayList<Ammunition>();
+
+		try
+		{
+			PS_get_for_Weapon.setString(1, model);
+			ResultSet rs = PS_get_for_Weapon.executeQuery();
+
+			while (rs.next())
+			{
+				Ammunition m = new Ammunition();
+				m.setName(rs.getString("name"));
+				m.setCost(rs.getInt("cost"));
+				m.setcaliber(rs.getInt("caliber"));
+				m.setWeapon_id(rs.getInt("Weapon_id"));
+				ammo_list.add(m);
+			}
+
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return ammo_list;
 	}
 
 	public boolean move_to_another_Weapon(Ammunition which, Weapon new_wep)
 	{
+		int count = 0;
+		WeaponManager wep = new WeaponManager();
+		try
+		{
+			int wep_id = wep.select_id_from_Weapon(new_wep.getModel());
+			PS_update_Weapon.setInt(1, wep_id);
+			PS_update_Weapon.setString(2, which.getName());
+			count = PS_update_Weapon.executeUpdate();
+
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		if (count == 1)
+			return true;
+		else
 			return false;
 	}
 
