@@ -7,7 +7,7 @@ import main.java.com.project.crud.domain.Weapon;
 
 public interface IAmmunitionManager
 {
-	// ADD
+	// dodanie do tabeli x
 	public boolean add_Ammunition(Ammunition Ammunition);
 
 	public boolean add_all_Ammunitions(List<Ammunition> ammunitions);
@@ -16,7 +16,7 @@ public interface IAmmunitionManager
 	public boolean update_Ammunition(Ammunition old_ammunition, Ammunition new_ammunition);
 
 	// DELETE
-	public boolean delete_Ammunition(Ammunition Ammunition);
+	public int delete_Ammunition(Ammunition Ammunition);
 
 	public void delete_all_Ammunitions();
 
@@ -26,7 +26,7 @@ public interface IAmmunitionManager
 	// OTHER
 	public void set_Weapon_for_Ammunition(Ammunition Ammunition, String Weapon_name);
 
-	//change ?
+	// pobranie x należących do y
 	public List<Ammunition> get_all_Ammunitions_for_Weapons(String name);
 
 	//change ?

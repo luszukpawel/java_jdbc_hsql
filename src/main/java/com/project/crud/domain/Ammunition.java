@@ -5,7 +5,7 @@ public class Ammunition
 	private int id;
 
 	private String name;
-	private float caliber;
+	private int caliber;
 	private int cost;
 	private int Weapon_id;
 
@@ -13,7 +13,7 @@ public class Ammunition
 	{
 	}
 
-	Ammunition(String name, int cost, float caliber)
+	Ammunition(String name, int cost, int caliber)
 	{
 		super();
 		this.name = name;
@@ -21,7 +21,7 @@ public class Ammunition
 		this.caliber = caliber;
 	}
 
-	public Ammunition(String name, int cost, float caliber, int Weapon_id)
+	public Ammunition(String name, int cost, int caliber, int Weapon_id)
 	{
 		super();
 		this.name = name;
@@ -70,12 +70,12 @@ public class Ammunition
 		this.cost = cost;
 	}
 
-	public float getcaliber()
+	public int getcaliber()
 	{
 		return caliber;
 	}
 
-	public void setcaliber(float caliber)
+	public void setcaliber(int caliber)
 	{
 		this.caliber = caliber;
 	}
