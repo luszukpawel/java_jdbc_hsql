@@ -79,18 +79,28 @@ public class AmmunitionManagerTest
 	@Test
 	public void test_delete_one()
 	{
-		weaponManager.add_Weapon(new Weapon("Ammunition"));
-		int Weapon_id = weaponManager.select_id_from_Weapon("Ammunition");
-		Ammunition Ammunition = new Ammunition(NAME, 1, 1, Weapon_id);
+		// add new weapon
+		weaponManager.add_Weapon(new Weapon("Weapon1"));
+		int Weapon_id = weaponManager.select_id_from_Weapon("Weapon1");
+
+		// create 2 new ammonitions
+		Ammunition Ammunition = new Ammunition("Ammunition1", 1, 1, Weapon_id);
 		AmmunitionManager.add_Ammunition(Ammunition);
 		Ammunition Ammunition2 = new Ammunition("Ammunition2", 2, 2, Weapon_id);
 		AmmunitionManager.add_Ammunition(Ammunition2);
 
-		AmmunitionManager.delete_Ammunition(Ammunition);
 		List<Ammunition> Ammunitions = AmmunitionManager.get_all_Ammunitions();
+		
+		//size is 2 
+		
+		assertEquals(2, Ammunitions.size());
+		AmmunitionManager.delete_Ammunition(Ammunition);
+		
+	
+		Ammunitions = AmmunitionManager.get_all_Ammunitions();
 		assertEquals(1, Ammunitions.size());
 		Ammunition check = Ammunitions.get(0);
-		
+
 		assertEquals("Ammunition2", check.getName());
 	}
 

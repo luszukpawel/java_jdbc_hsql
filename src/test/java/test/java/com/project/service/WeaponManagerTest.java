@@ -14,15 +14,13 @@ import main.java.com.project.crud.service.WeaponManager;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.omg.CosNaming.NamingContextExtPackage.AddressHelper;
 
 public class WeaponManagerTest
 {
 	IWeaponManager WeaponManager = new WeaponManager();
 
 	private static String model = "AK-47";
-	
-
-		
 	
 	@Before
 	public void clear_database()
@@ -34,6 +32,21 @@ public class WeaponManagerTest
 	public void test_connection()
 	{
 		assertNotNull(((WeaponManager) WeaponManager).getConnection());
+	}
+	
+	@Test
+	public void first_test2()
+	{
+		List<Weapon> test_weapons = new ArrayList<Weapon>();
+		Weapon p1 = new Weapon("MP5");
+		Weapon p2 = new Weapon("RPG-7");
+		Weapon p3 = new Weapon("UZI");
+		Weapon p4 = new Weapon("Remington");
+		test_weapons.add(p1);
+		test_weapons.add(p2);
+		test_weapons.add(p3);
+		test_weapons.add(p4);
+		WeaponManager.add_all_Weapons(test_weapons);
 	}
 
 	@Test
@@ -82,7 +95,27 @@ public class WeaponManagerTest
 		List<Weapon> weapons = WeaponManager.get_all_Weapons();
 		assertEquals(0, weapons.size());
 	}
+	@Test
+	public void test_Ammunitions_from_Weapon_fixed()
+	{
+		// new wep 
+		IAmmunitionManager ammunitionManager = new AmmunitionManager();
+		ammunitionManager.delete_all_Ammunitions();
+		WeaponManager.add_Weapon(new Weapon("M4A1"));
 
+		int ammo_id = WeaponManager.select_id_from_Weapon("M4A1");
+
+		//add ammo 
+		ammunitionManager.add_Ammunition(new Ammunition("DUMMY", 1, 1, ammo_id));
+		ammunitionManager.add_Ammunition(new Ammunition("TRACER", 1, 1, ammo_id));
+		ammunitionManager.add_Ammunition(new Ammunition("BUMBUM", 1, 1, ammo_id));
+		ammunitionManager.add_Ammunition(new Ammunition("BUMBUM2", 1, 1, ammo_id));
+
+		List<Ammunition> ammunitions = ammunitionManager.get_all_Ammunitions_for_Weapons("M4A1");
+		// chck size 
+		assertEquals(4, ammunitions.size());
+		ammunitionManager.delete_all_Ammunitions();
+	}
 	@Test
 	public void test_insert_all()
 	{
@@ -104,6 +137,7 @@ public class WeaponManagerTest
 		assertEquals(4, all.size());
 	}
 
+
 	@Test
 	public void test_update()
 	{
@@ -114,24 +148,7 @@ public class WeaponManagerTest
 		WeaponManager.delete_all_Weapons();
 	}
 
-	@Test
-	public void test_Ammunitions_from_Weapon()
-	{
 
-		IAmmunitionManager ammunitionManager = new AmmunitionManager();
-		ammunitionManager.delete_all_Ammunitions();
-		WeaponManager.add_Weapon(new Weapon("M4A1"));
-
-		int ammo_id = WeaponManager.select_id_from_Weapon("M4A1");
-
-		ammunitionManager.add_Ammunition(new Ammunition("DUMMY", 1, 1, ammo_id));
-		ammunitionManager.add_Ammunition(new Ammunition("TRACER", 1, 1, ammo_id));
-		ammunitionManager.add_Ammunition(new Ammunition("BUMBUM", 1, 1, ammo_id));
-
-		List<Ammunition> ammunitions = ammunitionManager.get_all_Ammunitions_for_Weapons("M4A1");
-		assertEquals(3, ammunitions.size());
-		ammunitionManager.delete_all_Ammunitions();
-	}
 	@Test
 	public void first_test()
 	{

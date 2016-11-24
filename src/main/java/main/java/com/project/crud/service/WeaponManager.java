@@ -88,6 +88,8 @@ public class WeaponManager implements IWeaponManager
 	public int delete_Weapon(Weapon Weapon)
 	{
 		int count = 0;
+		
+		
 		try
 		{
 			PS_delete_one.setString(1, Weapon.getModel());
@@ -210,4 +212,6 @@ public class WeaponManager implements IWeaponManager
 		else
 			return false;
 	}
+	
+
 }
